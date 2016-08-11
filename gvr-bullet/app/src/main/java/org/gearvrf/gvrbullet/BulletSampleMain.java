@@ -1,6 +1,6 @@
 package org.gearvrf.gvrbullet;
 
-import java.io.IOException;
+import android.graphics.Color;
 
 import org.gearvrf.FutureWrapper;
 import org.gearvrf.GVRAndroidResource;
@@ -13,9 +13,9 @@ import org.gearvrf.GVRScene;
 import org.gearvrf.GVRSceneObject;
 import org.gearvrf.physics.GVRPhysicsWorld;
 import org.gearvrf.physics.GVRRigidBody;
-import org.gearvrf.utility.Log;
+import org.siprop.bullet.Bullet;
 
-import android.graphics.Color;
+import java.io.IOException;
 
 public class BulletSampleMain extends GVRMain {
 
@@ -87,7 +87,6 @@ public class BulletSampleMain extends GVRMain {
 
     @Override
     public void onStep() {
-        GVRPhysicsWorld.step();
     }
 
     private GVRSceneObject quadWithTexture(float width, float height,
@@ -135,8 +134,7 @@ public class BulletSampleMain extends GVRMain {
      * Function to add a sphere of dimension and position specified in the
      * Bullet physics world and scene graph
      */
-    private void addSphere(GVRScene scene, float radius, float x, float y,
-            float z, float mass) {
+    private void addSphere(GVRScene scene, float radius, float x, float y, float z, float mass) {
 
         GVRSceneObject sphereObject = meshWithTexture("sphere.obj", "sphere.jpg");
         sphereObject.attachCollider(new GVRMeshCollider(mGVRContext, sphereObject.getRenderData().getMesh()));
