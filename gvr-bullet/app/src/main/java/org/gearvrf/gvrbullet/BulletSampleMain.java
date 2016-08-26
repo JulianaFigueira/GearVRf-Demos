@@ -14,16 +14,6 @@ import org.gearvrf.GVRSceneObject;
 import org.gearvrf.physics.GVRPhysicsWorld;
 import org.gearvrf.physics.GVRRigidBody;
 import org.gearvrf.utility.Log;
-import org.siprop.bullet.Geometry;
-import org.siprop.bullet.MotionState;
-import org.siprop.bullet.RigidBody;
-import org.siprop.bullet.Transform;
-import org.siprop.bullet.shape.BoxShape;
-import org.siprop.bullet.shape.SphereShape;
-import org.siprop.bullet.shape.StaticPlaneShape;
-import org.siprop.bullet.util.Point3;
-import org.siprop.bullet.util.ShapeType;
-import org.siprop.bullet.util.Vector3;
 
 import android.graphics.Color;
 
