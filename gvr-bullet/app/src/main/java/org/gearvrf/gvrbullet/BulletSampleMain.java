@@ -1,6 +1,9 @@
 package org.gearvrf.gvrbullet;
 
+import org.gearvrf.GVRMain;
+
 import android.graphics.Color;
+import java.io.IOException;
 
 import org.gearvrf.FutureWrapper;
 import org.gearvrf.GVRAndroidResource;
@@ -14,8 +17,6 @@ import org.gearvrf.GVRSceneObject;
 import org.gearvrf.physics.GVRPhysicsWorld;
 import org.gearvrf.physics.GVRRigidBody;
 import org.siprop.bullet.Bullet;
-
-import java.io.IOException;
 
 public class BulletSampleMain extends GVRMain {
 
