@@ -18,5 +18,5 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := bullet
-LOCAL_SRC_FILES := ../jniLibs/armeabi-v7a/libbullet.so
+#LOCAL_SRC_FILES := ../jniLibs/armeabi-v7a/libbullet.so
 include $(PREBUILT_SHARED_LIBRARY)
