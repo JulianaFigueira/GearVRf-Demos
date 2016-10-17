@@ -17,10 +17,22 @@ import org.gearvrf.GVRSphereCollider;
 import org.gearvrf.GVRTexture;
 import org.gearvrf.physics.GVRRigidBody;
 import org.gearvrf.physics.GVRWorld;
+import org.gearvrf.physics.ICollisionEvents;
 
 import java.io.IOException;
 
 public class BulletSampleMain extends GVRMain {
+
+    public class CollisionHandler implements ICollisionEvents
+    {
+        public void onEnter(GVRSceneObject sceneObj0, GVRSceneObject sceneObj1, float normal[], float distance) {
+            ((GVRRigidBody)sceneObj0.getComponent(GVRRigidBody.getComponentType())).applyTorque(normal[0], normal[1], normal[2]);
+        }
+        public void onExit(GVRSceneObject sceneObj0, GVRSceneObject sceneObj1, float normal[], float distance) {
+            ((GVRRigidBody)sceneObj0.getComponent(GVRRigidBody.getComponentType())).applyCentralForce(normal[0], normal[1], normal[2]);
+        }
+
+    }
 
     private GVRContext mGVRContext = null;
 
@@ -29,9 +41,12 @@ public class BulletSampleMain extends GVRMain {
     private static final float CUBE_MASS = 0.5f;
     private static final float BALL_MASS = 2.5f;
 
+    private CollisionHandler mCollisionHandler;
+
     @Override
     public void onInit(GVRContext gvrContext) throws Throwable {
         mGVRContext = gvrContext;
+        mCollisionHandler = new CollisionHandler();
         final GVRScene scene = mGVRContext.getNextMainScene();
 
 
@@ -174,7 +189,7 @@ public class BulletSampleMain extends GVRMain {
         body.setMass(mass);
         body.setRestitution(0.5f);
         body.setFriction(1.0f);
-
+        cubeObject.getEventReceiver().addListener(mCollisionHandler);
         scene.addSceneObject(cubeObject);
     }
 
@@ -202,6 +217,7 @@ public class BulletSampleMain extends GVRMain {
         mSphereRigidBody.setMass(mass);
         mSphereRigidBody.setRestitution(1.5f);
         mSphereRigidBody.setFriction(0.5f);
+        //sphereObject.getEventReceiver().addListener(mCollisionHandler);
 
         scene.addSceneObject(sphereObject);
     }
