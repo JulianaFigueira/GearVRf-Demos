@@ -25,11 +25,29 @@ public class BulletSampleMain extends GVRMain {
 
     public class CollisionHandler implements ICollisionEvents
     {
-        public void onEnter(GVRSceneObject sceneObj0, GVRSceneObject sceneObj1, float normal[], float distance) {
-            ((GVRRigidBody)sceneObj0.getComponent(GVRRigidBody.getComponentType())).applyTorque(normal[0], normal[1], normal[2]);
+        private GVRTexture blueObject;
+
+        CollisionHandler(){
+            try {
+                blueObject = mGVRContext.loadTexture(new GVRAndroidResource(mGVRContext, "sphereblue.jpg"));
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
-        public void onExit(GVRSceneObject sceneObj0, GVRSceneObject sceneObj1, float normal[], float distance) {
-            ((GVRRigidBody)sceneObj0.getComponent(GVRRigidBody.getComponentType())).applyCentralForce(normal[0], normal[1], normal[2]);
+
+        private void swapTextures(GVRSceneObject mSceneObj0){
+            GVRTexture tmp = mSceneObj0.getRenderData().getMaterial().getMainTexture();
+
+            mSceneObj0.getRenderData().getMaterial().setMainTexture(blueObject);
+
+            blueObject = tmp;
+        }
+
+        public void onEnter(GVRSceneObject mSceneObj0, GVRSceneObject mSceneObj1, float normal[], float distance) {
+            swapTextures(mSceneObj0);
+        }
+        public void onExit(GVRSceneObject mSceneObj0, GVRSceneObject mSceneObj1, float normal[], float distance) {
+            swapTextures(mSceneObj0);
         }
 
     }
@@ -42,61 +60,62 @@ public class BulletSampleMain extends GVRMain {
     private static final float BALL_MASS = 2.5f;
 
     private CollisionHandler mCollisionHandler;
+    private GVRScene mScene;
 
     @Override
     public void onInit(GVRContext gvrContext) throws Throwable {
         mGVRContext = gvrContext;
         mCollisionHandler = new CollisionHandler();
-        final GVRScene scene = mGVRContext.getNextMainScene();
+        mScene = mGVRContext.getNextMainScene();
 
 
-        GVRCameraRig mainCameraRig = scene.getMainCameraRig();
+        GVRCameraRig mainCameraRig = mScene.getMainCameraRig();
         mainCameraRig.getLeftCamera().setBackgroundColor(Color.BLACK);
         mainCameraRig.getRightCamera().setBackgroundColor(Color.BLACK);
 
         mainCameraRig.getTransform().setPosition(0.0f, 6.0f, 0.0f);
 
-        addGroundMesh(scene, 0.0f, 0.4f, 0.0f, 0.0f);
+        addGroundMesh(mScene, 0.0f, 0.4f, 0.0f, 0.0f);
 
         /*
          * Create Some cubes in Bullet world and hit it with a sphere
          */
-        addCube(scene, 0.0f, 1.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 0.0f, 1.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 0.0f, 1.0f, -11.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 1.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 1.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 1.0f, -11.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 1.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 1.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 1.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 1.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 1.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 1.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 1.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 1.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 1.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 1.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 1.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 1.0f, -11.0f, CUBE_MASS);
 
-        addCube(scene, 0.0f, 2.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 0.0f, 2.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 0.0f, 2.0f, -11.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 2.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 2.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 2.0f, -11.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 2.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 2.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 2.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 2.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 2.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 2.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 2.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 2.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 2.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 2.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 2.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 2.0f, -11.0f, CUBE_MASS);
 
-        addCube(scene, 0.0f, 3.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 0.0f, 3.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 0.0f, 3.0f, -11.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 3.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 3.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 1.0f, 3.0f, -11.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 3.0f, -9.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 3.0f, -10.0f, CUBE_MASS);
-        addCube(scene, 2.0f, 3.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 3.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 3.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 0.0f, 3.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 3.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 3.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 1.0f, 3.0f, -11.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 3.0f, -9.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 3.0f, -10.0f, CUBE_MASS);
+        addCube(mScene, 2.0f, 3.0f, -11.0f, CUBE_MASS);
 
         /*
          * Throw a sphere from top
          */
-        addSphere(scene, 1.0f, 1.5f, 40.0f, -10.0f, BALL_MASS);
+        addSphere(mScene, 1.0f, 1.5f, 40.0f, -10.0f, BALL_MASS);
 
-        scene.getRoot().attachComponent(new GVRWorld(gvrContext));
+        mScene.getRoot().attachComponent(new GVRWorld(gvrContext));
     }
 
     public void touchEvent() {
@@ -138,7 +157,7 @@ public class BulletSampleMain extends GVRMain {
         return object;
     }
 
-    private void addGroundMesh(GVRScene scene, float x, float y, float z, float mass) {
+    private void addGroundMesh(GVRScene mScene, float x, float y, float z, float mass) {
         try {
             GVRMesh mesh = mGVRContext.createQuad(100.0f, 100.0f);
             GVRTexture texture =
@@ -160,8 +179,8 @@ public class BulletSampleMain extends GVRMain {
 
             body.setRestitution(0.5f);
             body.setFriction(1.0f);
-
-            scene.addSceneObject(meshObject);
+            //meshObject.getEventReceiver().addListener(mCollisionHandler);
+            mScene.addSceneObject(meshObject);
         } catch (IOException exception) {
             Log.d("gvrf", exception.toString());
         }
@@ -169,9 +188,9 @@ public class BulletSampleMain extends GVRMain {
 
     /*
      * Function to add a cube of unit size with mass at the specified position
-     * in Bullet physics world and scene graph.
+     * in Bullet physics world and mScene graph.
      */
-    private void addCube(GVRScene scene, float x, float y, float z, float mass) {
+    private void addCube(GVRScene mScene, float x, float y, float z, float mass) {
 
         GVRSceneObject cubeObject = meshWithTexture("cube.obj", "cube.jpg");
         cubeObject.getTransform().setPosition(x, y, z);
@@ -189,15 +208,15 @@ public class BulletSampleMain extends GVRMain {
         body.setMass(mass);
         body.setRestitution(0.5f);
         body.setFriction(1.0f);
-        cubeObject.getEventReceiver().addListener(mCollisionHandler);
-        scene.addSceneObject(cubeObject);
+        //cubeObject.getEventReceiver().addListener(mCollisionHandler);
+        mScene.addSceneObject(cubeObject);
     }
 
     /*
      * Function to add a sphere of dimension and position specified in the
-     * Bullet physics world and scene graph
+     * Bullet physics world and mScene graph
      */
-    private void addSphere(GVRScene scene, float radius, float x, float y,
+    private void addSphere(GVRScene mScene, float radius, float x, float y,
             float z, float mass) {
 
         GVRSceneObject sphereObject = meshWithTexture("sphere.obj",
@@ -217,9 +236,8 @@ public class BulletSampleMain extends GVRMain {
         mSphereRigidBody.setMass(mass);
         mSphereRigidBody.setRestitution(1.5f);
         mSphereRigidBody.setFriction(0.5f);
-        //sphereObject.getEventReceiver().addListener(mCollisionHandler);
-
-        scene.addSceneObject(sphereObject);
+        sphereObject.getEventReceiver().addListener(mCollisionHandler);
+        mScene.addSceneObject(sphereObject);
     }
 
 }
